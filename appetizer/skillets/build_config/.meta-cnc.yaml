@@ -1,0 +1,10 @@
+name: appetizer_config_builder_82D97EF3-0A0E-48C8-97F6-9FC9B5A6883B
+label: appetizer config builder
+description: Template out the pan-cnc.yaml file
+type: template
+labels:
+  collection:
+    - appetizer
+snippets:
+  - name: config_template
+    file: pan-cnc.yaml.j2

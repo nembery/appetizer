@@ -1,0 +1,31 @@
+name: appetizer
+label: {{ app_name }}
+
+repositories:
+  - name: {{ app_name }}
+    url: {{ repo }}
+    branch: {{ repo_branch }}
+    destination_directory: {{ app_name }}
+
+views:
+  - name: ''
+    class: CNCView
+    menu: {{ app_name }}
+    menu_option: Welcome
+    attributes:
+      template_name: pan_cnc/welcome.html
+    context:
+      title: {{ app_name }}
+      description: Skillet Appetizer
+      documentation_link: {{ repo }}
+
+{%- for collection, skillets in collections.items() %}
+{%- for skillet in skillets %}
+  - name: {{ skillet.name }}
+    class: ProvisionSnippetView
+    menu: {{ collection }}
+    menu_option: {{ skillet.label }}
+    attributes:
+      snippet: {{ skillet.name }}
+{%- endfor %}
+{%- endfor %}
