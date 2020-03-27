@@ -21,7 +21,7 @@ views:
 
 {%- for collection, skillets in collections.items() %}
 {%- for skillet in skillets %}
-  - name: {{ skillet.name }}
+  - name: {{ skillet.name |replace(' ', '_') }}
     class: ProvisionSnippetView
     menu: {{ collection }}
     menu_option: {{ skillet.label }}

@@ -16,6 +16,7 @@
 # Authors: Nathan Embery
 
 import os
+import sys
 
 from skilletlib import SkilletLoader
 
@@ -29,7 +30,7 @@ if os.path.exists(config_path):
 print('Building Appetizer Configuration ...')
 
 repo = os.environ.get('REPO', 'https://github.com/PaloAltoNetworks/iron-skillet.git')
-repo_branch = os.environ.get('BRANCH', 'panos_v9.0')
+repo_branch = os.environ.get('BRANCH', 'master')
 repo_name = os.environ.get('NAME', 'appetizer')
 
 local_dir = os.path.expanduser('~/.pan_cnc/appetizer')
@@ -45,16 +46,23 @@ if os.path.exists(repo_full_dir):
     all_skillets = sl.load_all_skillets_from_dir(repo_full_dir)
 else:
     print('Pulling anew')
+    # do not check for self signed certs here
+    os.environ['GIT_SSL_NO_VERIFY'] = "1"
     all_skillets = sl.load_from_git(repo, repo_name, repo_branch, local_dir=local_dir)
 
 # sort all skillets by their collection labels
 collections = dict()
 for skillet in all_skillets:
     for collection in skillet.collections:
+
         if collection not in collections:
             collections[collection] = list()
         else:
             collections[collection].append(skillet)
+
+# Sort the skillet within the
+for collection in collections:
+    collections[collection].sort(key=lambda x: x.label)
 
 context = dict()
 context['collections'] = collections
@@ -64,9 +72,13 @@ context['app_name'] = repo_name
 
 skillet_path = os.path.join(this_path, 'skillets/build_config')
 config_builder_skillet = sl.load_skillet_from_path(skillet_path)
-t = sl.execute_template_skillet(config_builder_skillet, context)
+t = config_builder_skillet.execute(context)
+
+if 'template' not in t:
+    print('Could not parse skillet data!')
+    sys.exit(1)
 
 with open(config_path, 'w') as config_file:
-    config_file.write(t)
+    config_file.write(t['template'])
 
 print('Appetizer Configuration File built...')
