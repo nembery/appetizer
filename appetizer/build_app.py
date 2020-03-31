@@ -29,7 +29,7 @@ if os.path.exists(config_path):
 
 print('Building Appetizer Configuration ...')
 
-repo = os.environ.get('REPO', 'https://github.com/PaloAltoNetworks/iron-skillet.git')
+repo = os.environ.get('REPO', 'https://github.com/PaloAltoNetworks/HomeSkillet.git')
 repo_branch = os.environ.get('BRANCH', 'master')
 repo_name = os.environ.get('NAME', 'appetizer')
 
@@ -54,15 +54,33 @@ else:
 collections = dict()
 for skillet in all_skillets:
     for collection in skillet.collections:
+        if collection in ('lib', 'Kitchen Sink'):
+            continue
 
         if collection not in collections:
-            collections[collection] = list()
+            collections[collection] = [skillet]
         else:
             collections[collection].append(skillet)
 
-# Sort the skillet within the
+# Sort the skillet within the collection by label and record the order index, then check of order label
 for collection in collections:
     collections[collection].sort(key=lambda x: x.label)
+    order_index = 1000
+    for skillet in collections[collection]:
+        found_order_label = False
+        for label in skillet.labels:
+            if label == 'order':
+                found_order_label = True
+                setattr(skillet, 'order', skillet.labels['order'])
+                break
+
+        if not found_order_label:
+            setattr(skillet, 'order', order_index)
+
+        order_index += 1
+
+for collection in collections:
+    collections[collection].sort(key=lambda x: x.order)
 
 context = dict()
 context['collections'] = collections

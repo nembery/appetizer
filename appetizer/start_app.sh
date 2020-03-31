@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 export HOME=/home/cnc_user
+export GIT_SSL_NO_VERIFY=1
 
 python3 /app/src/appetizer/build_app.py
 
