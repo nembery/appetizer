@@ -2,6 +2,10 @@ include:
   - template: Dependency-Scanning.gitlab-ci.yml
   - template: Container-Scanning.gitlab-ci.yml
 
+container_scanning:
+  variables:
+    GIT_STRATEGY: fetch
+
 # This file is a template, and might need editing before it works on your project.
 docker-build-master:
   # Official docker image.
