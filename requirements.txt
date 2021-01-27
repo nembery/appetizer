@@ -1,2 +1,3 @@
 PyYAML
-skilletlib
+git+https://github.com/PaloAltoNetworks/skilletlib.git@develop#egg=skilletlib
+paramiko

@@ -2,7 +2,7 @@
 FROM python:3.7-alpine
 
 LABEL description="Skillet Appetizer"
-LABEL version="0.2"
+LABEL version="0.5"
 LABEL maintainer="sp-solutions@paloaltonetworks.com"
 
 ENV TERRAFORM_VERSION=0.11.13
@@ -18,7 +18,7 @@ WORKDIR /app
 RUN apk add --update --no-cache git curl build-base musl-dev python3-dev libffi-dev openssl-dev \
     linux-headers libxml2-dev libxslt-dev
 
-RUN git clone https://github.com/PaloAltoNetworks/pan-cnc.git /app/cnc && cd /app/cnc && git checkout master
+RUN git clone https://github.com/PaloAltoNetworks/pan-cnc.git /app/cnc && cd /app/cnc && git checkout develop
 COPY requirements.txt /app/requirements.txt
 
 RUN pip install --upgrade pip && pip install --no-cache-dir -r cnc/requirements.txt && \

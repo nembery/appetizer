@@ -7,7 +7,7 @@ python3 /app/src/appetizer/build_app.py
 
 cd /app/cnc || exit 1
 celery -A pan_cnc worker --loglevel=info  &
-if [ ! -f /app/cnc/db.sqlite3 ];
+if [ ! -f $HOME/.pan_cnc/db.sqlite3 ];
   then
     python /app/cnc/manage.py migrate && \
     python /app/cnc/manage.py shell -c \

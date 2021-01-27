@@ -17,6 +17,7 @@
 
 import os
 import sys
+import shutil
 
 from skilletlib import SkilletLoader
 
@@ -50,6 +51,19 @@ else:
     os.environ['GIT_SSL_NO_VERIFY'] = "1"
     all_skillets = sl.load_from_git(repo, repo_name, repo_branch, local_dir=local_dir)
 
+src_dir = os.path.join(repo_full_dir, 'src')
+
+if os.path.exists(src_dir):
+    print('Found a CNC APP to build')
+    for d in os.listdir(src_dir):
+        full_path = os.path.join(src_dir, d)
+        if os.path.isdir(full_path):
+            shutil.copytree(full_path, f'/app/src/{d}')
+
+    # No need to build out a pan-cnc.yaml file if this is a CNC app already...
+    sys.exit(0)
+
+# Build out a new pan-cnc config file from here
 # sort all skillets by their collection labels
 collections = dict()
 for skillet in all_skillets:
