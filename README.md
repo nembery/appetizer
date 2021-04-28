@@ -1,6 +1,6 @@
 # APPETIZER
 
-Appetzier is a simple docker container that can create an app from any Skillet or repository of Skillets. 
+Appetzier is a simple docker container that can create a standalone app from any repository containing Skillets. 
 
 
 ## Getting started
@@ -18,7 +18,7 @@ Then create the container with the docker run command:
 
 ```bash
 
-docker run -p 8080:8080 -t nembery/appitzier
+docker run -p 8080:8080 -t registry.gitlab.com/panw-gse/as/appetizer
 
 ```
 
@@ -26,10 +26,10 @@ Or, all in one command such as:
 
 ```bash
 
-docker run -e 'REPO=https://github.com/PaloAltoNetworks/SkilletBuilder.git' -e 'BRANCH=develop' -p 8088:8080 --rm -t nembery/appetizer
+docker run -it --rm -p 8088:8080 -e 'REPO=https://github.com/PaloAltoNetworks/SkilletBuilder.git' \
+  -e 'BRANCH=develop' \ 
+  --name "Skillet Builder" registry.gitlab.com/panw-gse/as/appetizer
 
 ```
-
-
 
 Browse to localhost and enjoy your new app!

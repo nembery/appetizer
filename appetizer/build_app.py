@@ -31,7 +31,7 @@ if os.path.exists(config_path):
 
 print('Building Appetizer Configuration ...')
 
-repo = os.environ.get('REPO', 'https://github.com/PaloAltoNetworks/HomeSkillet.git')
+repo = os.environ.get('REPO', 'https://github.com/PaloAltoNetworks/SkilletBuilder.git')
 repo_branch = os.environ.get('BRANCH', 'master')
 repo_name = os.environ.get('NAME', 'appetizer')
 
