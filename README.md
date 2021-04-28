@@ -26,7 +26,7 @@ Or, all in one command such as:
 
 ```bash
 
-docker run -e 'REPO=https://github.com/PaloAltoNetworks/GPCSskillets.git' -e 'BRANCH=develop' -p 8088:8080 --rm -t nembery/appetizer
+docker run -e 'REPO=https://github.com/PaloAltoNetworks/SkilletBuilder.git' -e 'BRANCH=develop' -p 8088:8080 --rm -t nembery/appetizer
 
 ```
 

@@ -18,6 +18,7 @@
 import os
 import sys
 import shutil
+import markdown
 
 from skilletlib import SkilletLoader
 
@@ -34,7 +35,7 @@ repo = os.environ.get('REPO', 'https://github.com/PaloAltoNetworks/HomeSkillet.g
 repo_branch = os.environ.get('BRANCH', 'master')
 repo_name = os.environ.get('NAME', 'appetizer')
 
-local_dir = os.path.expanduser('~/.pan_cnc/appetizer')
+local_dir = os.path.expanduser('~/.pan_cnc/appetizer/repositories')
 
 if not os.path.exists(local_dir):
     os.makedirs(local_dir)
@@ -46,7 +47,7 @@ if os.path.exists(repo_full_dir):
     print('Using local dir')
     all_skillets = sl.load_all_skillets_from_dir(repo_full_dir)
 else:
-    print('Pulling anew')
+    print(f'Pulling anew into {local_dir}')
     # do not check for self signed certs here
     os.environ['GIT_SSL_NO_VERIFY'] = "1"
     all_skillets = sl.load_from_git(repo, repo_name, repo_branch, local_dir=local_dir)
@@ -76,6 +77,16 @@ for skillet in all_skillets:
         else:
             collections[collection].append(skillet)
 
+readme_doc = os.path.join(repo_full_dir, 'README.md')
+
+if os.path.exists(readme_doc):
+    with open(readme_doc, 'r') as readme:
+        description = markdown.markdown(readme.read())
+else:
+    print('No Readme found in this repo, using Repo Name instead')
+    description = repo_name
+
+
 # Sort the skillet within the collection by label and record the order index, then check of order label
 for collection in collections:
     collections[collection].sort(key=lambda x: x.label)
@@ -101,6 +112,7 @@ context['collections'] = collections
 context['repo'] = repo
 context['repo_branch'] = repo_branch
 context['app_name'] = repo_name
+context['description'] = description
 
 skillet_path = os.path.join(this_path, 'skillets/build_config')
 config_builder_skillet = sl.load_skillet_from_path(skillet_path)
@@ -114,3 +126,5 @@ with open(config_path, 'w') as config_file:
     config_file.write(t['template'])
 
 print('Appetizer Configuration File built...')
+
+print(t['template'])

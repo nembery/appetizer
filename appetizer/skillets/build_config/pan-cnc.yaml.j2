@@ -13,10 +13,11 @@ views:
     menu: {{ app_name }}
     menu_option: Welcome
     attributes:
-      template_name: pan_cnc/welcome.html
+      template_name: appetizer/welcome.html
     context:
       title: {{ app_name }}
-      description: Skillet Appetizer
+      description: |-
+        {{ description | indent(width=8) }}
       documentation_link: {{ repo }}
 
 {%- for collection, skillets in collections.items() %}
