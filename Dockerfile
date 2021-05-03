@@ -1,5 +1,5 @@
 
-FROM registry.gitlab.com/panw-gse/as/as-py-base-image@sha256:b189d625a5386b7aff598d44e6822e02f0731e30061b890eaec68d658ac52e36
+FROM registry.gitlab.com/panw-gse/as/as-py-base-image@sha256:a4f16996fae54b74b2c9a81ebf954b0e8a4e83d81bf1040a7ce9515729b460e7
 
 LABEL description="Skillet Appetizer"
 LABEL version="0.7"
